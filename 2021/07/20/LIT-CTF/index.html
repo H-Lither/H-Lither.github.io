@@ -1,9 +1,9 @@
 <!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> LIT CTF · H-Lither</title><meta name="description" content="LIT CTF - John Doe"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://example.com/atom.xml" title="H-Lither"><meta name="generator" content="Hexo 5.3.0"><link rel="alternate" href="/atom.xml" title="H-Lither" type="application/atom+xml">
-</head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/sunchongsheng" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/pinggod" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">LIT CTF</h1><div class="post-info">Jul 21, 2021</div><div class="post-content"><h1 id="LIT-CTF"><a href="#LIT-CTF" class="headerlink" title="LIT CTF"></a>LIT CTF</h1><blockquote>
+</head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/sunchongsheng" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/pinggod" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">LIT CTF</h1><div class="post-info">Jul 20, 2021</div><div class="post-content"><h1 id="LIT-CTF"><a href="#LIT-CTF" class="headerlink" title="LIT CTF"></a>LIT CTF</h1><blockquote>
 <p>(July 18, 2021 23:59 UTC | On-line )</p>
 </blockquote>
 <p>其他方向也做了很多，这里只写写逆向吧。</p>
-<p>rev(7/8)，做出来的每道题都是前10解。</p>
+<p>rev(7/8)，做出来的每道题都是前10解。最后一题misc题。猜不出来，真的离谱。。。。。</p>
 <h2 id="rev-Yarn"><a href="#rev-Yarn" class="headerlink" title="rev/Yarn"></a><strong>rev/Yarn</strong></h2><p>ida打开，发现puts了好多内容。。</p>
 <p><img src="https://13-1301107080.cos.ap-guangzhou.myqcloud.com/image-20210721191537779.png" alt="image-20210721191537779"></p>
 <p>shift+f12打开，搜索：flag关键词，得到flag</p>
@@ -53,7 +53,7 @@
 <p><img src="https://13-1301107080.cos.ap-guangzhou.myqcloud.com/image-20210721221947575.png">把函数入口也重新修改一下，把那个+1去掉。</p>
 <p>修复成功</p>
 <p><img src="https://13-1301107080.cos.ap-guangzhou.myqcloud.com/image-20210721210334616.png" alt="image-20210721210334616"></p>
-<p><img src="C:\Users\86198\AppData\Roaming\Typora\typora-user-images\image-20210721210105149.png" alt="image-20210721210105149"></p>
+<p><img src="https://13-1301107080.cos.ap-guangzhou.myqcloud.com/image-20210721231816883.png" alt="image-20210721231816883"></p>
 <p>，我们从头开始分析题目。</p>
 <p><img src="https://13-1301107080.cos.ap-guangzhou.myqcloud.com/image-20210721222031190.png" alt="image-20210721222031190"></p>
 <p>读取flag。存再ptr中。</p>
