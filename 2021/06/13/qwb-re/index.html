@@ -9,7 +9,6 @@
 <p>下面又 byte1++，那就变成了 0x10001 了，我擦这不就是标准的 rsa 吗 e=65536，动调起 来看也是 </p>
 <p><img src="https://13-1301107080.cos.ap-guangzhou.myqcloud.com/image-20210723103358092.png" alt="image-20210723103358092"></p>
 <p>下面又有出现了 pow(m,e,n)形式， </p>
-<p><img src="C:/Users/86198/AppData/Local/Temp/msohtmlclip1/01/clip_image008.png" alt="page51image3654672"></p>
 <p>感觉这可能就是 RSA，最后本地验证随便输入了一下，得到换表后的 base64 密文看他们 的 hex 值，发现都一样。 </p>
 <p>现在就确定是 RSA 了 </p>
 <p><img src="https://13-1301107080.cos.ap-guangzhou.myqcloud.com/image-20210723103408481.png" alt="image-20210723103408481"></p>
