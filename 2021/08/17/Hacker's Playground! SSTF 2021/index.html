@@ -1,0 +1,41 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> Hacker's Playground! SSTF 2021 · H-Lither</title><meta name="description" content="Hacker's Playground! SSTF 2021 - John Doe"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://example.com/atom.xml" title="H-Lither"><meta name="generator" content="Hexo 5.3.0"><link rel="alternate" href="/atom.xml" title="H-Lither" type="application/atom+xml">
+</head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/sunchongsheng" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/pinggod" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">Hacker's Playground! SSTF 2021</h1><div class="post-info">Aug 17, 2021</div><div class="post-content"><h1 id="Rev"><a href="#Rev" class="headerlink" title="Rev:"></a>Rev:</h1><p>Secure Enough </p>
+<p>Description</p>
+<blockquote>
+<p>I made my protocol. I think it is really safe.</p>
+</blockquote>
+<p>附件：</p>
+<p>分析：</p>
+<blockquote>
+<p> ├─Secure_Enough</p>
+<pre><code>  │   my_client
+
+  │   out.pcap
+</code></pre>
+</blockquote>
+<p>解压得到两个文件，一个my_client,x86-x64得elf文件。一个流量包。使用IDA打开elf文件</p>
+<p><img src="https://13-1301107080.cos.ap-guangzhou.myqcloud.com/image-20210818032521807.png" alt="image-20210818032521807">如果运行得话，要存在一个参数。(动调得时候加上去就行）然后就是sub_1186是一个socket函数，用来唤起一个服务。</p>
+<p>port为7001</p>
+<p><img src="https://13-1301107080.cos.ap-guangzhou.myqcloud.com/image-20210818032541146.png" alt="image-20210818032541146"></p>
+<p>然后判断链接与否。然后返回这个句柄。</p>
+<p>接着进入sub_1784函数</p>
+<p><img src="https://13-1301107080.cos.ap-guangzhou.myqcloud.com/image-20210818032611426.png" alt="image-20210818032611426"></p>
+<p>进入sub_13f1函数</p>
+<p><img src="https://13-1301107080.cos.ap-guangzhou.myqcloud.com/image-20210818032620798.png" alt="image-20210818032620798">进入sub_1561函数<img src="https://13-1301107080.cos.ap-guangzhou.myqcloud.com/USMzBz31i9iE5DKL.png!thumbnail" alt="img">进入sub_170f<img src="https://13-1301107080.cos.ap-guangzhou.myqcloud.com/USMzBz31i9iE5DKL.png!thumbnail" alt="img">进入sub_1647!</p>
+<p><img src="https://13-1301107080.cos.ap-guangzhou.myqcloud.com/image-20210818032633439.png" alt="image-20210818032633439">再看看main函数中最后一个函数sub_1a28</p>
+<p><img src="https://13-1301107080.cos.ap-guangzhou.myqcloud.com/image-20210818032646053.png" alt="image-20210818032646053"> solution：虚拟机打开三个控制台</p>
+<p>一个打开ida64的调试服务。</p>
+<p>一个连接服务 ：nc -l 7001</p>
+<p>一个用来监听流量：tcpdump -i any port 7001 -X -A (以16进制和ascii实时打印）</p>
+<p>而根据我们上面的分析，它提供的另一个文件 ：out.pcap。我们使用Wireshark,来分析这个流量包。发现。他就是我们进行交互的时候监听的流量。所以我们跟踪tcp流。选择hex转储!</p>
+<p><img src="https://13-1301107080.cos.ap-guangzhou.myqcloud.com/image-20210818032730360.png" alt="image-20210818032730360"> 然后队友<strong>mumuzi</strong>跟我说，红色是客户端，蓝色是服务端。那我就彻底懂了这道题。那就是把这道题的状态还原到我们现在启动的服务上！</p>
+<p>根据刚才的分析，标识头为 1 然后会将<img src="https://uploader.shimo.im/f/YYgr4WcOkFh0y0y1.png!thumbnail?accessToken=eyJhbGciOiJIUzI1NiIsImtpZCI6ImRlZmF1bHQiLCJ0eXAiOiJKV1QifQ.eyJhdWQiOiJhY2Nlc3NfcmVzb3VyY2UiLCJleHAiOjE2MjkyMjg1MDgsImciOiJyZEdUS3F0WER0cVlEeXJ3IiwiaWF0IjoxNjI5MjI4MjA4LCJ1c2VySWQiOjI1MTQ1Nzk2fQ.DHzrLfB_uMZOCABFPP9iTkMGAw-WlvE4azdnAxED6OE" alt="img">，拼接上去。所以unk_203040的此时状态的数据为：</p>
+<p><img src="https://13-1301107080.cos.ap-guangzhou.myqcloud.com/image-20210818032804367.png" alt="image-20210818032804367">接下来的数据就是将unk_203060的数据进行RSA_public_encry加密存储。</p>
+<p><img src="https://13-1301107080.cos.ap-guangzhou.myqcloud.com/image-20210818032811482.png" alt="image-20210818032811482">标识头为2，是我们服务端向客户端发送数据监听到的流量。接下来的数据就是将输入的进行RSA_public_decry加密，然后截取0x20存储到我们要得到unk_203080，</p>
+<p><img src="https://13-1301107080.cos.ap-guangzhou.myqcloud.com/image-20210818032818694.png" alt="image-20210818032818694"> </p>
+<p><img src="https://13-1301107080.cos.ap-guangzhou.myqcloud.com/image-20210818032825446.png" alt="image-20210818032825446">现在，三个关键的“种子”!我们都得到了，已经将此时的状态还原到题目题出题时候的初始状态</p>
+<p><img src="https://13-1301107080.cos.ap-guangzhou.myqcloud.com/image-20210818032836706.png" alt="image-20210818032836706">这段客户端发送的数据可以用来我们还原了上面数据的一个验证。接下来最后一段服务端发送的数据就是我们的密文！我们动调的时候再恢复为解密这段数据块最后即可得到我们想要的flag。他将再客户端打印</p>
+<p><img src="https://13-1301107080.cos.ap-guangzhou.myqcloud.com/image-20210818032847072.png" alt="image-20210818032847072"> 结果：</p>
+<p><img src="https://13-1301107080.cos.ap-guangzhou.myqcloud.com/image-20210818032907060.png" alt="image-20210818032907060"></p>
+<p> SCTF{B3_CAR3_FULL_W1T4_RAND0M} </p>
+</div></article></div></main><footer><div class="paginator"><a href="/2021/08/06/%E5%88%86%E4%BA%AB%E4%B8%80%E9%81%93%E6%9C%89%E8%B6%A3%E7%9A%84%E9%80%86%E5%90%91%E9%A2%98/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2021 <a href="http://example.com">John Doe</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>
